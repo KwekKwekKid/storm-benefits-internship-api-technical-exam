@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -6,6 +6,9 @@ from sqlalchemy.ext.declarative import declarative_base
 app = Flask(__name__)
 
 #TODO: Make it so that it creates a database if it doesn't exist'
+
+#This assumes your mysql doesn't have a password.
+#If the app doesn't work, try replacing "root" with username:password.
 engine = create_engine(
     "mysql://root@localhost/company_db", convert_unicode=True)
 
@@ -13,12 +16,12 @@ Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
 
-#made a constant so that it'd be easier to change the directory in the future.
+#Made a constant so that it'd be easier to change the directory in the future.
 BASE_DIR = "/api/companies"
 
 
 #Stores a row in the database.
-#considered making a models.py file, but didn't since it'd just have one class.
+#Considered making a models.py file, but didn't since it'd just have one class.
 class Company(Base):
     __tablename__ = "company"
 
@@ -35,6 +38,7 @@ class Company(Base):
         self.email = email
         self.industry = industry
 
+    #Made this so it would be easier to jsonify instances of Company.
     def to_dict(self):
         return dict(
             name=self.name, employees=self.employees, location=self.location,
@@ -42,8 +46,9 @@ class Company(Base):
 
 
 @app.route("/")
+@app.route("/index")
 def index():
-    return Company.__repr__
+    return redirect("http://localhost:5000" + BASE_DIR, code=302)
 
 
 @app.route(BASE_DIR, methods=["GET"])
@@ -53,28 +58,37 @@ def get_companies():
         {"companies": [company.to_dict() for company in companies]})
 
 
-@app.route(BASE_DIR + "/<company_name>", method=["GET"])
+@app.route(BASE_DIR + "/<company_name>", methods=["GET"])
 def get_company(company_name):
     company = session.query(Company).filter_by(name=company_name).one()
     return jsonify({"company": company.to_dict()})
 
 
-@app.route(BASE_DIR, method =["POST"])
+@app.route(BASE_DIR, methods=["POST"])
 def add_company():
     if not request.get_json() or "name" not in request.get_json():
         abort(400)
-    if(not request.get_json()):
+
+    if("name" in request.get_json()
+            and type(request.get_json()["name"]) != str):
         abort(400)
-    if("name" in request.get_json() and type(request.get_json()["name"]) != str):
+
+    if("employees" in request.get_json()
+            and type(request.get_json()["employees"]) != int):
         abort(400)
-    if("employees" in request.get_json() and type(request.get_json()["employees"]) != int):
+
+    if("location" in request.get_json()
+            and type(request.get_json()["location"]) != str):
         abort(400)
-    if("location" in request.get_json() and type(request.get_json()["location"]) != str):
+
+    if("email" in request.get_json()
+            and type(request.get_json()["email"]) != str):
         abort(400)
-    if("email" in request.get_json() and type(request.get_json()["email"]) is not str):
+
+    if("industry" in request.get_json()
+            and type(request.get_json()["industry"]) != str):
         abort(400)
-    if("industry" in request.get_json() and type(request.get_json()["industry"]) is not str):
-        abort(400)
+
     company_name = request.get_json().get("name")
     company_employees = request.get_json().get("employees", 0)
     company_location = request.get_json().get("location")
@@ -98,19 +112,30 @@ def add_company():
 def update_company(company_name):
     if(not request.get_json()):
         abort(400)
-    if("name" in request.get_json() and type(request.get_json()["name"]) != str):
-        abort(400)
-    if("employees" in request.get_json() and type(request.get_json()["employees"]) != int):
-        abort(400)
-    if("location" in request.get_json() and type(request.get_json()["location"]) != str):
-        abort(400)
-    if("email" in request.get_json() and type(request.get_json()["email"]) is not str):
-        abort(400)
-    if("industry" in request.get_json() and type(request.get_json()["industry"]) is not str):
+
+    if("name" in request.get_json()
+            and type(request.get_json()["name"]) != str):
         abort(400)
 
-    company = session.query(Company).filter_by(name=company_name).ome()
+    if("employees" in request.get_json()
+            and type(request.get_json()["employees"]) != int):
+        abort(400)
+
+    if("location" in request.get_json()
+            and type(request.get_json()["location"]) != str):
+        abort(400)
+
+    if("email" in request.get_json()
+            and type(request.get_json()["email"]) != str):
+        abort(400)
+
+    if("industry" in request.get_json()
+            and type(request.get_json()["industry"]) != str):
+        abort(400)
+
+    company = session.query(Company).filter_by(name=company_name)
     company.update(request.get_json())
+    company = company.one()
     session.commit()
 
     return jsonify({"company": company.to_dict()})
@@ -118,7 +143,7 @@ def update_company(company_name):
 
 @app.route(BASE_DIR + "/<company_name>", methods=["DELETE"])
 def remove_company(company_name):
-    company = session.query(Company).filter_by(name=company_name).one()
+    company = session.query(Company).filter_by(name=company_name)
     company.delete()
     session.commit()
 
@@ -126,6 +151,6 @@ def remove_company(company_name):
 
 
 if(__name__ == "__main__"):
-    Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)  # creates the required tables
     app.run()
     session.close()
