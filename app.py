@@ -68,6 +68,19 @@ def get_company(company_name):
     return jsonify({"company": company.one().to_dict()})
 
 
+@app.route(BASE_DIR + "/search", methods=["GET"])
+def search_company():
+    partial_name = request.args.get("q")
+
+    if(partial_name == ""):
+        return get_companies()
+
+    companies = session.query(Company).filter(
+        Company.name.like("%"+partial_name+"%")).all()
+
+    return jsonify({"companies": [company.to_dict() for company in companies]})
+
+
 @app.route(BASE_DIR, methods=["POST"])
 def add_company():
     if(not request_valid() or "name" not in request.get_json()):
