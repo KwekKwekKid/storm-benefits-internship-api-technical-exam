@@ -5,8 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 
-#TODO: Make it so that it creates a database if it doesn't exist'
-
 #This assumes your mysql doesn't have a password.
 #If the app doesn't work, try replacing "root" with username:password.
 engine = create_engine(
@@ -70,13 +68,15 @@ def get_company(company_name):
 
 @app.route(BASE_DIR + "/search", methods=["GET"])
 def search_company():
-    partial_name = request.args.get("q")
+    #gets the search query from what follows "?q="
+    search_query = request.args.get("q")
 
-    if(partial_name == ""):
+    #shows everything when query is blank
+    if(search_query == ""):
         return get_companies()
 
     companies = session.query(Company).filter(
-        Company.name.like("%"+partial_name+"%")).all()
+        Company.name.like("%"+search_query+"%")).all()
 
     return jsonify({"companies": [company.to_dict() for company in companies]})
 
