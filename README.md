@@ -11,9 +11,9 @@ Before running this project, there may be a few things that will need to be inst
 
 ### Prerequisites
 
-[Python][https://www.python.org/downloads/]- To run the code
+[Python](https://www.python.org/downloads/)- To run the code
 
-[MySQL][https://www.mysql.com/downloads/] - For the database
+[MySQL](https://www.mysql.com/downloads/) - For the database
 
 Once those are installed, you will then need to install the python libraries used. Open a terminal and run the following command:
 
@@ -32,6 +32,8 @@ Another thing you would have to do is open up MySQL to create a new database. On
 ```mysql
 CREATE DATABASE company_db
 ```
+
+Once that's done, if you're using a password for MySQL, open the app.py file and replace "root" in the link to the database with your username and password separated by a colon. There are comments in the code to show you how to do it.
 
 ## Running the API
 
@@ -79,7 +81,7 @@ In Postman, there should be a dropdown button near the upper left. That's where 
 http://localhost:5000/api/companies
 ```
 
-![Displaying all companies with Postman](images/get_companies.png)
+![Displaying all companies with Postman](https://github.com/KwekKwekKid/storm-benefits-internship-api-technical-exam/blob/master/images/get_companies.PNG)
 
 To see information about specific companies, you should just use the same URL in either method, but add the name of the company you want to see at the end:
 
@@ -123,7 +125,9 @@ An important note when using curl is that the JSON should be enclosed in single 
 }'
 ```
 
-On Postman it's much easier. Just set the request to POST, type the link for getting companies, and select body under the text field. Select raw, and in the dropdown, set it to JSON. Then you can insert your JSON like normal without surrounding it in quotes.![Adding a company with Postman](images/add_company.png)
+On Postman it's much easier. Just set the request to POST, type the link for getting companies, and select body under the text field. Select raw, and in the dropdown, set it to JSON. Then you can insert your JSON like normal without surrounding it in quotes.
+
+![Adding a company with Postman](https://github.com/KwekKwekKid/storm-benefits-internship-api-technical-exam/blob/master/images/add_company.PNG)
 
 ```json
 {
@@ -133,12 +137,12 @@ On Postman it's much easier. Just set the request to POST, type the link for get
 }
 ```
 
-
+To update company information, change the request to PUT and make the URL a link to the specific company you want to update. This time the JSON should just contain values you want to update. A company's property will have its value replaced by the value you specify for that property.
 
 ## Built With
 
-* [Flask][http://flask.pocoo.org]- The framework used
-* [SQLAlchemy][https://www.sqlalchemy.org/] - SQL Toolkit and ORM
+* [Flask](http://flask.pocoo.org)- The framework used
+* [SQLAlchemy](https://www.sqlalchemy.org/) - SQL Toolkit and ORM
 
 ## Author
 
