@@ -95,7 +95,7 @@ http://localhost:5000/api/companies/search?q=SEARCH_GOES_HERE
 
 This search will list all companies whose names contain the search query you entered.
 
-### Adding Companies
+### Adding and Updating Companies
 
 To add companies, we'll be using a POST request. The link we'll be using however, is still going to be the one to see all companies. For this, a JSON will need to be sent to specify the details of the company to be added. At the very least a name will need to be specified. The other fields are employees, email, location, and industry. As an example, we could have something that looks like this: 
 
@@ -123,17 +123,7 @@ An important note when using curl is that the JSON should be enclosed in single 
 }'
 ```
 
-
-
-```json
-{
-  "name": "Siomai Gosh",
-  "employees": 59,
-  "location": "Metro Manila"
-}
-```
-
-
+On Postman it's much easier. Just set the request to POST, type the link for getting companies, and select body under the text field. Select raw, and in the dropdown, set it to JSON. Then you can insert your JSON like normal without surrounding it in quotes.![Adding a company with Postman](images/add_company.png)
 
 ```json
 {
