@@ -63,6 +63,50 @@ Only using a web browser however, will only let you view things. To be able to u
 
 In the following sections I will list each function of the API, followed by how to use that function on both curl and Postman.
 
+###Listing and Searching For Company Records
+
+This is the most simple one as it only requires you to input a link.
+
+To use this function with curl, run the following in a terminal:
+
+```
+curl -i http://localhost:5000/api/companies
+```
+
+In Postman, there should be a dropdown button near the upper left. That's where we will be selecting our requests. For this function, pick GET and in the text field next to it enter the following then hit send:
+
+```
+http://localhost:5000/api/companies
+```
+
+![Displaying all companies with Postman](images/get_companies.png)
+
+To see information about specific companies, you should just use the same URL in either method, but add the name of the company you want to see at the end:
+
+```
+http://localhost:5000/api/companies/COMPANY_NAME_GOES_HERE
+```
+
+You can also search for companies by using this URL (again this link will work for both curl and Postman):
+
+```
+http://localhost:5000/api/companies/search?q=SEARCH_GOES_HERE
+```
+
+This search will list all companies whose names contain the search query you entered.
+
+### Adding Companies
+
+To add companies, we'll be using a POST request. The link we'll be using however, is still going to be the one to see all companies. For this, a JSON will need to be sent to specify the details of the company to be added. At the very least a name will need to be specified. The other fields are employees, email, location, and industry. As an example, we could have something that looks like this: 
+
+```json
+{
+  "name": "Siomai Gosh",
+  "employees": 59,
+  "location": "Metro Manila"
+}
+```
+
 ## Built With
 
 * [Flask][http://flask.pocoo.org]- The framework used
