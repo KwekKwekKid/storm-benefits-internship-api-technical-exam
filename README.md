@@ -103,8 +103,8 @@ To add companies, we'll be using a POST request. The link we'll be using however
 
 ```json
 {
-  "name": "Siomai Gosh",
-  "employees": 59,
+  "name": "Don't Stop Giniling",
+  "employees": 79,
   "location": "Metro Manila"
 }
 ```
@@ -119,8 +119,8 @@ An important note when using curl is that the JSON should be enclosed in single 
 
 ```
 '{
-  """name""": """Siomai Gosh""",
-  """employees""": 59,
+  """name""": """Don't Stop Giniling""",
+  """employees""": 79,
   """location""": """Metro Manila"""
 }'
 ```
@@ -138,6 +138,20 @@ On Postman it's much easier. Just set the request to POST, type the link for get
 ```
 
 To update company information, change the request to PUT and make the URL a link to the specific company you want to update. This time the JSON should just contain values you want to update. A company's property will have its value replaced by the value you specify for that property.
+
+###Deleting Companies
+
+Deleting company records is simple, you don't need to make a JSON for it. Just set a DELETE request and set the URL that belongs to the specific company you want to delete. For example, if we wanted to delete a record for a food company called "Goto Believe", it would look like this in curl:
+
+```shell
+curl -X DELETE http://localhost:5000/api/companies/Goto%20Believe
+```
+
+The "%20" symbolizes a space. On Postman however, you don't have to worry about typing that, you can just include normal spaces.
+
+![Displaying all companies with Postman](https://github.com/KwekKwekKid/storm-benefits-internship-api-technical-exam/blob/master/images/delete_company.PNG)
+
+And that's all the API does. Hopefully it works on your computer. 
 
 ## Built With
 
