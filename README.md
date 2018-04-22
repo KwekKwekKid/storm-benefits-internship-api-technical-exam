@@ -107,6 +107,44 @@ To add companies, we'll be using a POST request. The link we'll be using however
 }
 ```
 
+In curl, you would need to run a command like this:
+
+```shell
+curl -X POST -H "Content-Type: application/json" -d 'JSON_GOES_HERE' http://localhost:5000/api/companies
+```
+
+An important note when using curl is that the JSON should be enclosed in single quotes, and if properties and values need to be in quotes, they should be double quotes. This works on Linux, but on windows this may not run correctly. To remedy this, surround the JSON with double quotes instead, and instead of using a single double quote inside the JSON, use three. For example it might look like this on Windows:
+
+```
+'{
+  """name""": """Siomai Gosh""",
+  """employees""": 59,
+  """location""": """Metro Manila"""
+}'
+```
+
+
+
+```json
+{
+  "name": "Siomai Gosh",
+  "employees": 59,
+  "location": "Metro Manila"
+}
+```
+
+
+
+```json
+{
+  "name": "Siomai Gosh",
+  "employees": 59,
+  "location": "Metro Manila"
+}
+```
+
+
+
 ## Built With
 
 * [Flask][http://flask.pocoo.org]- The framework used
