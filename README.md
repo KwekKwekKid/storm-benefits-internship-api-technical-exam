@@ -37,7 +37,7 @@ Once that's done, if you're using a password for MySQL, open the app.py file and
 
 ## Running the API
 
-Once the prerequisites have been properly installed, you will be able to run [Flask][http://flask.pocoo.org], the framework used to make this API.
+Once the prerequisites have been properly installed, you will be able to run [Flask](http://flask.pocoo.org), the framework used to make this API.
 
 Navigate to the directory where the app.py file is located, and run the following command:
 
@@ -61,7 +61,7 @@ This URL will display all the companies present in the database.
 
 ## Testing the API
 
-Only using a web browser however, will only let you view things. To be able to use all the API's features we will need to use something else. In this I will explain two ways of testing out the API's functionality. By using [curl][https://curl.haxx.se/download.html] or [Postman][https://www.getpostman.com/apps]. If on a Linux system, curl should already be available to you, if not however, you will need to download it.
+Only using a web browser however, will only let you view things. To be able to use all the API's features we will need to use something else. In this I will explain two ways of testing out the API's functionality. By using [curl](https://curl.haxx.se/download.html) or [Postman](https://www.getpostman.com/apps). If on a Linux system, curl should already be available to you, if not however, you will need to download it.
 
 In the following sections I will list each function of the API, followed by how to use that function on both curl and Postman.
 
